@@ -4,7 +4,7 @@ This repo is for practicing Kubernetes, Terraform, and Ansible. I will be achiev
 
 - [x] Create EC2 instances and security groups that establish SSH access for workers and masters
 - [x] Use S3 to hold Terraform state
-- [ ] Update Terraform to make dynamic amounts of worker and master nodes depending on input variables
+- [x] Update Terraform to make dynamic amounts of worker and master nodes depending on input variables
 - [ ] Use Terraform templating to create inventory file for Ansible to use
 - [ ] Use Ansible to install and configure Kubernetes on the infrastructure created by Terraform
 - [ ] Deploy a basic website using Kubernetes

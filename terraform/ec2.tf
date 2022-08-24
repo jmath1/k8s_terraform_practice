@@ -15,36 +15,29 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "master" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  key_name      = var.ssh_key_name
-  tags = {
-    Name = "master"
-    Type = "master"
-  }
-  vpc_security_group_ids = [aws_security_group.main.id]
-}
+  count = var.number_of_masters
 
-resource "aws_instance" "worker1" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   key_name      = var.ssh_key_name
   tags = {
-    Name = "worker1",
+    Name = "worker${count.index}",
     Type = "worker"
   }
   vpc_security_group_ids = [aws_security_group.main.id]
 }
 
 
-resource "aws_instance" "worker2" {
+resource "aws_instance" "worker" {
+  count = var.number_of_workers
+
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   key_name      = var.ssh_key_name
-
   tags = {
-    Name = "worker2",
+    Name = "worker${count.index}",
     Type = "worker"
   }
   vpc_security_group_ids = [aws_security_group.main.id]
 }
+

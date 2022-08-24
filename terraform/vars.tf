@@ -8,3 +8,15 @@ variable "ssh_key_name" {
   type        = string
   default     = "aws_key"
 }
+
+variable "number_of_masters" {
+  description = "number of master EC2 Instances to build for Kubernetes"
+  type        = number
+  default     = 1
+}
+
+variable "number_of_workers" {
+  description = "number of worker EC2 Instances to build for Kubernetes"
+  type        = number
+  default     = 2
+}
