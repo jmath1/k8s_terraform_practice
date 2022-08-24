@@ -1,6 +1,6 @@
 sandbox
 sandbox.pub
-
+ansible/hosts
 .terraform.lock.hcl
 
 ### Ansible ###
