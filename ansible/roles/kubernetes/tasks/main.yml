@@ -38,3 +38,8 @@
       - kubeadm
       - kubelet
       - kubectl
+  
+- name: Ship /etc/hosts
+  copy:
+    src: ./hosts
+    dest: /etc/hosts

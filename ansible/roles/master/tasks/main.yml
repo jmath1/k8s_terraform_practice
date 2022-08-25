@@ -1,4 +1,14 @@
 ---
+- name: Check if Kubernetes has already been initialized.
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: kubernetes_init_stat
 
 - name: Initialize Kubernetes master with kubeadm init
   command: kubeadm init
+  register: kubeadmin_init
+  when: not kubernetes_init_stat.stat.exists
+
+- name: Set up kube config
+  become: yes
+  shell: mkdir $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config

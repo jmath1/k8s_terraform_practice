@@ -2,5 +2,5 @@
 - hosts: masters
 
   roles:
-    - kubernetes
-    - master
+  - {role: 'kubernetes', tags: 'kubernetes'}
+  - {role: 'master', tags: 'master'}

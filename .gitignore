@@ -2,7 +2,7 @@ sandbox
 sandbox.pub
 ansible/hosts
 .terraform.lock.hcl
-
+ansible/inventory
 ### Ansible ###
 *.retry
 
