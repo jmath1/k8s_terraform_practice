@@ -21,8 +21,8 @@ resource "aws_instance" "master" {
   instance_type = "t3.micro"
   key_name      = var.ssh_key_name
   tags = {
-    Name = "worker${count.index}",
-    Type = "worker"
+    Name = "master${count.index}",
+    Type = "master"
   }
   vpc_security_group_ids = [aws_security_group.main.id]
 }
