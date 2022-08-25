@@ -1,0 +1,40 @@
+---
+- name: Ensure dependencies are installed
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+    state: present
+
+- name: Add Kubernetes apt key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+  register: add_repository_key
+
+- name: Set hostname
+  become: yes
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Install docker
+  apt:
+    name: docker.io
+
+
+- name: Add Kubernetes Signing Key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Add Kubernetes repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    update_cache: true
+
+- name: Install Kubernetes
+  apt:
+    name:
+      - kubeadm
+      - kubelet
+      - kubectl

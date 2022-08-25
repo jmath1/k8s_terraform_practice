@@ -1,0 +1,4 @@
+---
+
+- name: Initialize Kubernetes master with kubeadm init
+  command: kubeadm init

@@ -1,0 +1,9 @@
+---
+- hosts: workers
+
+  vars:
+    kubernetes_role: "node"
+
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.kubernetes
