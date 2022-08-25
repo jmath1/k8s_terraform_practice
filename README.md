@@ -11,3 +11,6 @@ This repo is for practicing Kubernetes, Terraform, and Ansible. I will be achiev
 - [ ] Use Terraform to secure the Kubernetes cluster so that the SSH ports are only available from within a VPN.
 - [ ] Use Terraform to make the application only reachable from a load balancer.
 - More Objectives TBD
+
+<h5>Minor Backlog</h5>
+- [ ] Tempate ansible.cfg using terraform so that filenames are not hardcoded in the .cfg file
