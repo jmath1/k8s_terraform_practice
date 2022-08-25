@@ -1,9 +1,9 @@
 [masters]
-%{ for master_ip in master_ips }
-${ master_ip }
+%{ for master in masters }
+${ master}
 %{ endfor }
 
 [workers]
-%{ for worker_ip in worker_ips }
-${ worker_ip }
+%{ for worker in workers }
+${ worker }
 %{ endfor }
