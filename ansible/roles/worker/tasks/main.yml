@@ -1,0 +1,11 @@
+---
+- name: Get worker join token
+  shell: kubeadm token create --print-join-command
+  register: worker_join_token
+  when: "'master0' in inventory_hostname"
+
+
+- name: Join worker to Kubernetes cluster
+  shell: "{{ hostvars['master0']['worker_join_token']['stdout'] }}"
+  when : "'worker' in inventory_hostname"
+  failed_when: "False"

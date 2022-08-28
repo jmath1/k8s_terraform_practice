@@ -17,11 +17,6 @@
   hostname:
     name: "{{ inventory_hostname }}"
 
-- name: Install docker
-  apt:
-    name: docker.io
-
-
 - name: Add Kubernetes Signing Key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -38,8 +33,39 @@
       - kubeadm
       - kubelet
       - kubectl
-  
+
+- name: Disable swap
+  shell: >
+    swapoff -a
+
+- name: Disable swap on reboot
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
+- name: Ensure br_netfilter is loaded so iptables can be configured
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Set iptables
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    state: present
+
 - name: Ship /etc/hosts
   copy:
     src: ./hosts
     dest: /etc/hosts
+
+- name: Change containerd config
+  copy:
+    dest: /etc/containerd/config.toml
+    content: |
+      [plugins."io.containerd.grpc.v1.cri"]
+      systemd_cgroup = true
+
+- name: Update containerd config
+  shell: systemctl restart containerd

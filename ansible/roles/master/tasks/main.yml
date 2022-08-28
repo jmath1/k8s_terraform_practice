@@ -1,14 +1,26 @@
 ---
-- name: Check if Kubernetes has already been initialized.
+- name: Check if Kubernetes has already been initialized
   stat:
     path: /etc/kubernetes/admin.conf
   register: kubernetes_init_stat
 
 - name: Initialize Kubernetes master with kubeadm init
+  become: yes
   command: kubeadm init
   register: kubeadmin_init
   when: not kubernetes_init_stat.stat.exists
 
 - name: Set up kube config
   become: yes
-  shell: mkdir $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config
+  shell: |
+    mkdir $HOME/.kube && 
+    \cp -i /etc/kubernetes/admin.conf $HOME/.kube/config &&
+    chown $(id -u):$(id -g) $HOME/.kube/config &&
+    chown -R ubuntu $HOME/.kube &&
+  when: not kubernetes_init_stat.stat.exists
+
+- name: Apply kube-flannel manifest to the cluster
+  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+- name: Apply kube-flannel-rbac manifest to the cluster
+  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
