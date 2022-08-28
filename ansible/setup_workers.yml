@@ -1,6 +1,9 @@
 ---
 - hosts: workers
-
   roles:
-    - kubernetes
-    - worker
+  - {role: 'docker', tags: 'docker'}
+  - {role: 'kubernetes', tags: 'kubernetes'}
+
+- hosts: all
+  roles:
+  - {role: 'worker', tags: 'worker'}
